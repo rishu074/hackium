@@ -6,5 +6,8 @@
   "repository": "https://github.com/NotRoyadma/hackium.git",
   "author": "NotRoyadma <royadma2314@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "bin": {
+    "lodsa": "./bin/hackium.js"
+  }
 }
