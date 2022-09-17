@@ -36,7 +36,16 @@ export default function generateBins(args, options) {
             //checking the files
             logUpdate(`Progress [ ----- ] 25%\n\nChecking the files...`);
 
-            if()
+            if(fs.existsSync(`./${answers.filenameToSaveTheOutput.toString()}`)) {
+                fs.unlinkSync(`./${answers.filenameToSaveTheOutput.toString()}`)
+            }
+
+            //generating the bins
+            logUpdate(`Progress [ ---------- ] 50%\n\nGenerating the Bins...`);
+
+            //real generator
+
+
         }).catch((error) => {
             if (error.isTtyError) {
                 process.exit(1);
@@ -45,27 +54,7 @@ export default function generateBins(args, options) {
             }
         })
     } else {
-        inquirer.prompt([
-            {
-                name: "numberOfBinsToGenerate",
-                type: 'number',
-                default: 20,
-                message: "Enter the amount of Bins to Generate"
-            },
-            {
-                message: "Are you ready?",
-                type: 'confirm',
-                name: "areYouReady",
-                default: 'n'
-            }
-        ]).then((answers) => {
-            return console.log(answers)
-        }).catch((error) => {
-            if (error.isTtyError) {
-                process.exit(1);
-            } else {
-                process.exit(1);
-            }
-        })
+        console.log("Please use --save flag.")
+        process.exit(1);
     }
 }
