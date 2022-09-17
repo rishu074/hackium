@@ -7,10 +7,12 @@
   "author": "NotRoyadma <royadma2314@gmail.com>",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "bin": {
     "hackium": "./bin/hackium.js"
   },
   "dependencies": {
-    "yargs-interactive": "^3.0.1"
+    "caporal": "^1.4.0",
+    "inquirer": "^9.1.1"
   }
 }
