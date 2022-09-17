@@ -1,10 +1,10 @@
-import logUpdate from 'log-update';
+const getRandomBin = () => {
+    let number = Math.floor(Math.random() * (0 + 999999));
+    if (number.toString().length === 6) {
+        return parseInt(number);
+    } else {
+        return false;
+    }
+};
 
-const frames = ['-', '\\', '|', '/'];
-let index = 0;
-
-setInterval(() => {
-    const frame = frames[index = ++index % frames.length];
-
-    logUpdate(`Progress [ --- ] 15%\n\nReading the Data...`);
-}, 80);
+console.log(getRandomBin())

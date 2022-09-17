@@ -36,15 +36,49 @@ export default function generateBins(args, options) {
             //checking the files
             logUpdate(`Progress [ ----- ] 25%\n\nChecking the files...`);
 
-            if(fs.existsSync(`./${answers.filenameToSaveTheOutput.toString()}`)) {
+            if (fs.existsSync(`./${answers.filenameToSaveTheOutput.toString()}`)) {
                 fs.unlinkSync(`./${answers.filenameToSaveTheOutput.toString()}`)
             }
 
             //generating the bins
             logUpdate(`Progress [ ---------- ] 50%\n\nGenerating the Bins...`);
 
-            //real generator
+            //bins array
+            let binsArray = [];
+            let startDate = Date.now();
 
+            //real generator
+            for (let i = 0; i < parseInt(answers.numberOfBinsToGenerate); i++) {
+                //get the bin
+                let bin = getRandomBin();
+                if (bin) {
+
+                    //appeanding into file
+                    try {
+                        fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `${bin.toString()}\n`, { encoding: 'utf-8' })
+                    } catch (error) {
+                        console.error(error);
+                        return process.exit(1);
+
+                    }
+
+                    //updating the log output
+                    if (i < parseInt(answers.numberOfBinsToGenerate) / 2) {
+                        logUpdate(`Progress [ --------------- ] 75%\n\nGenerating the Bins...\n\n${bin}`);
+                    } else if (i === parseInt(answers.numberOfBinsToGenerate) - 1) {
+                        logUpdate(`Progress [ ------------------- ] 95%\n\nGenerating the Bins...\n\n${bin}`);
+                    } else {
+                        logUpdate(`Progress [ ------------ ] 60%\n\nGenerating the Bins...\n\n${bin}`);
+                    }
+
+                    binsArray.push(bin);
+                }
+
+            }
+
+            let endDate = Date.now()
+
+            logUpdate(`Progress [ -------------------- ] 100%\n\nGenerated ${binsArray.length} in ${(endDate-startDate) / 100}s`);
 
         }).catch((error) => {
             if (error.isTtyError) {
@@ -58,3 +92,12 @@ export default function generateBins(args, options) {
         process.exit(1);
     }
 }
+
+const getRandomBin = () => {
+    let number = Math.floor(Math.random() * (0 + 999999));
+    if (number.toString().length === 6) {
+        return parseInt(number);
+    } else {
+        return false;
+    }
+};
