@@ -1,0 +1,10 @@
+{
+  "name": "hackium",
+  "version": "1.0.0",
+  "description": "a cool cli-app",
+  "main": "hackium.js",
+  "repository": "https://github.com/NotRoyadma/hackium.git",
+  "author": "NotRoyadma <royadma2314@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
