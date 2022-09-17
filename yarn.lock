@@ -34,7 +34,7 @@
   "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.1.tgz"
   "version" "2.2.1"
 
-"ansi-styles@^6.1.0":
+"ansi-styles@^6.0.0", "ansi-styles@^6.1.0":
   "integrity" "sha512-qDOv24WjnYuL+wbwHdlsYZFy+cgPtrYw0Tn7GLORicQp9BkQLzrgI3Pm4VyR9ERZ41YTn7KlMPuL1n05WdZvmg=="
   "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.1.1.tgz"
   "version" "6.1.1"
@@ -395,6 +395,11 @@
   "resolved" "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz"
   "version" "2.0.0"
 
+"is-fullwidth-code-point@^4.0.0":
+  "integrity" "sha512-O4L094N2/dZ7xqVdrXhh9r1KODPJpFms8B5sGdJLPy664AgvXsreZUyCQQNItZRDlYug4xStLjNp/sz3HvBowQ=="
+  "resolved" "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-4.0.0.tgz"
+  "version" "4.0.0"
+
 "is-interactive@^2.0.0":
   "integrity" "sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ=="
   "resolved" "https://registry.npmjs.org/is-interactive/-/is-interactive-2.0.0.tgz"
@@ -457,6 +462,17 @@
   dependencies:
     "chalk" "^5.0.0"
     "is-unicode-supported" "^1.1.0"
+
+"log-update@^5.0.1":
+  "integrity" "sha512-5UtUDQ/6edw4ofyljDNcOVJQ4c7OjDro4h3y8e1GQL5iYElYclVHJ3zeWchylvMaKnDbDilC8irOVyexnA/Slw=="
+  "resolved" "https://registry.npmjs.org/log-update/-/log-update-5.0.1.tgz"
+  "version" "5.0.1"
+  dependencies:
+    "ansi-escapes" "^5.0.0"
+    "cli-cursor" "^4.0.0"
+    "slice-ansi" "^5.0.0"
+    "strip-ansi" "^7.0.1"
+    "wrap-ansi" "^8.0.1"
 
 "micromist@1.1.0":
   "integrity" "sha512-+CQ76pabE9egniSEdmDuH+j2cYyIBKP97kujG8ZLZyLCRq5ExwtIy4DPHPFrq4jVbhMRBnyjuH50KU9Ohs8QCg=="
@@ -647,6 +663,14 @@
   "integrity" "sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ=="
   "resolved" "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   "version" "3.0.7"
+
+"slice-ansi@^5.0.0":
+  "integrity" "sha512-FC+lgizVPfie0kkhqUScwRu1O/lF6NOgJmlCgK+/LYxDCTk8sGelYaHDhFcDN+Sn3Cv+3VSa4Byeo+IMCzpMgQ=="
+  "resolved" "https://registry.npmjs.org/slice-ansi/-/slice-ansi-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "ansi-styles" "^6.0.0"
+    "is-fullwidth-code-point" "^4.0.0"
 
 "spawn-sync@^1.0.15":
   "integrity" "sha512-9DWBgrgYZzNghseho0JOuh+5fg9u6QWhAWa51QC7+U5rCheZ/j1DrEZnyE0RBBRqZ9uEXGPgSSM0nky6burpVw=="
