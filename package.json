@@ -8,6 +8,6 @@
   "license": "MIT",
   "private": true,
   "bin": {
-    "lodsa": "./bin/hackium.js"
+    "hackium": "./bin/hackium.js"
   }
 }
