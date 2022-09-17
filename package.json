@@ -9,5 +9,8 @@
   "private": true,
   "bin": {
     "hackium": "./bin/hackium.js"
+  },
+  "dependencies": {
+    "yargs-interactive": "^3.0.1"
   }
 }
