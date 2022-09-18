@@ -33,6 +33,11 @@ npm install
 npm install -g .
 ```
 
+Now set the Envirnment variable of your system
+```
+HACKIUM_APP_PATH = YOURPATH
+```
+
 ```
 hackium --help
 ```
