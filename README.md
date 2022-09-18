@@ -40,4 +40,26 @@ hackium --help
 
 ## Usage <a name = "usage"></a>
 
-Add notes about how to use the system.
+Help command
+```
+hackium --help
+```
+
+Help for specific command
+```
+hackium --help generate
+```
+
+Example of generating and validating bins
+```
+hackium bins generate --save
+hackium bins validate --save
+```
+
+Example of generating and validating cards
+```
+hackium cards generate --save
+hackium cards validate --save
+```
+
+
