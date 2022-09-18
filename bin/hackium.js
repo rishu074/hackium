@@ -4,6 +4,7 @@
 import caporal from 'caporal';
 import fs from 'fs';
 import binsHandler from '../handlers/binsHandler.js';
+import cardsHandler from '../handlers/cardsHandler.js';
 // import dotenv from 'dotenv';
 import path from 'path'
 // dotenv.config();
@@ -21,10 +22,19 @@ caporal.name('hackium');
 //bins command
 caporal
     .command('bins', 'Used to Generate and Validate BINS')
-    .argument('<type>', 'Enter the type ', /^generate|validate$/, 'generate')
-    .option('--save', 'Save the output to a seperate file?', caporal.BOOLEAN)
+    .argument('<type>', 'Enter the type (generate/validate)', /^generate|validate$/, 'generate')
+    .option('--save', 'Save the output to a seperate file?', caporal.BOOLEAN, false, true)
     .action((args, options, logger) => {
         return binsHandler(args, options, logger);
+    });
+
+//cards command
+caporal
+    .command('cards', 'Used to generate and check cards')
+    .argument('<type>', 'Enter the type (generate/validate)', /^generate|validate$/, 'generate')
+    .option('--save', 'Save the output to a seperate file?', caporal.BOOLEAN, false, true)
+    .action((args, options, logger) => {
+        return cardsHandler(args, options, logger);
     });
 
 caporal.parse(process.argv);
