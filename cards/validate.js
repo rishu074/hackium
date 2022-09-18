@@ -27,6 +27,18 @@ export default function validateCards(args, options) {
                 validate: validateSkKey
             },
             {
+                name: 'currency',
+                type: 'input',
+                default: 'usd',
+                message: "Enter the currency for amount"
+            },
+            {
+                name: 'amount',
+                type: 'number',
+                default: 50,
+                message: "Enter the amount to deduct from cards"
+            },
+            {
                 message: "Are you ready?",
                 type: 'confirm',
                 name: "areYouReady",
@@ -107,17 +119,28 @@ export default function validateCards(args, options) {
 
                     if (typeof tokenObject === 'object') {
                         //here we successfully got the token
-                        let charge = await checkCard(tokenObject, 1, 'usd', answers.skKey.toString());
+                        let charge = await checkCard(tokenObject, answers.amount, answers.currency.toString(), answers.skKey.toString());
+
                         if (typeof charge === 'object') {
-                            logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\n\nReceipt = ${charge.receipt_url.toString()}\nCaptured = ${charge.captured}`)
-                            chargedCount ++;
+
+                            logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\nReceipt = ${charge.receipt_url.toString()}\nCaptured = ${charge.captured}`)
+                            chargedCount++;
+
+                            //updating the file
+                            await updateFile(`./${answers.filenameToSaveTheOutput.toString()}`, `${outputString} Receipt = ${charge.receipt_url.toString()} captured = ${charge.captured}\n`)
                         } else {
-                            logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\n\n${charge.toString()}`)
+                            logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\n${charge.toString()}`)
                             declinedCount++;
+
+                            //updating the file
+                            await updateFile(`./${answers.filenameToSaveTheOutput.toString()}`, `${outputString} ${charge.toString()}\n`)
                         }
                     } else {
-                        logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\n\n${tokenObject.toString()}`)
+                        logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}\n${tokenObject.toString()}`)
                         declinedCount++;
+
+                        //updating the file
+                        await updateFile(`./${answers.filenameToSaveTheOutput.toString()}`, `${outputString} ${tokenObject.toString()}\n`)
                     }
                 }
             }
@@ -249,6 +272,18 @@ const checkCard = async (tokenObject, amount, currency, skKey) => {
                 return error.code.toString()
             }
         }
+
+    }
+}
+
+const updateFile = async (path, data) => {
+    //appeanding into file
+    try {
+        fs.appendFileSync(path.toString(), data.toString(), { encoding: 'utf-8' })
+
+    } catch (error) {
+        console.error(error);
+        return process.exit(1);
 
     }
 }
