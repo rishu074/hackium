@@ -47,6 +47,9 @@ export default function generateBins(args, options) {
             let binsArray = [];
             let startDate = Date.now();
 
+            const frames = ['-', '\\', '|', '/'];
+            let index = 0;
+
             //real generator
             for (let i = 0; i < parseInt(answers.numberOfBinsToGenerate); i++) {
                 //get the bin
@@ -63,13 +66,16 @@ export default function generateBins(args, options) {
                     }
 
                     //updating the log output
-                    if (i < parseInt(answers.numberOfBinsToGenerate) / 2) {
-                        logUpdate(`Progress [ --------------- ] 75%\n\nGenerating the Bins...\n\n${bin}`);
-                    } else if (i === parseInt(answers.numberOfBinsToGenerate) - 1) {
-                        logUpdate(`Progress [ ------------------- ] 95%\n\nGenerating the Bins...\n\n${bin}`);
-                    } else {
-                        logUpdate(`Progress [ ------------ ] 60%\n\nGenerating the Bins...\n\n${bin}`);
-                    }
+                    // if (i < parseInt(answers.numberOfBinsToGenerate) / 2) {
+                    //     logUpdate(`Progress [ --------------- ] 75%\n\nGenerating the Bins...\n\n${bin}`);
+                    // } else if (i === parseInt(answers.numberOfBinsToGenerate) - 1) {
+                    //     logUpdate(`Progress [ ------------------- ] 95%\n\nGenerating the Bins...\n\n${bin}`);
+                    // } else {
+                    //     logUpdate(`Progress [ ------------ ] 60%\n\nGenerating the Bins...\n\n${bin}`);
+                    // }
+                    const frame = frames[index = ++index % frames.length];
+
+                    logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (parseInt(answers.numberOfBinsToGenerate))) * 100)}%\n\nGenerating the Bins...\n\n${bin}`);
 
                     binsArray.push(bin);
                 }
@@ -78,7 +84,7 @@ export default function generateBins(args, options) {
 
             let endDate = Date.now()
 
-            logUpdate(`Progress [ -------------------- ] 100%\n\nGenerated ${binsArray.length} in ${(endDate-startDate) / 100}s`);
+            logUpdate(`Progress [ ! ] 100%\n\nGenerated ${binsArray.length} in ${(endDate-startDate) / 100}s`);
 
         }).catch((error) => {
             if (error.isTtyError) {

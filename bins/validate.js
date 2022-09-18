@@ -19,6 +19,12 @@ export default async function validateBins(args, options) {
                 message: "Enter the filename to save the output in Current Directory"
             },
             {
+                name: 'filenameToSaveCheckedBinsForCards',
+                type: 'input',
+                default: 'checkedBinsForCards.txt',
+                message: "Enter the filename to save the output for cards in Current Directory"
+            },
+            {
                 message: "Are you ready?",
                 type: 'confirm',
                 name: "areYouReady",
@@ -36,6 +42,10 @@ export default async function validateBins(args, options) {
             //check for output file
             if (fs.existsSync(`./${answers.filenameToSaveTheOutput.toString()}`)) {
                 fs.unlinkSync(`./${answers.filenameToSaveTheOutput.toString()}`)
+            }
+
+            if (fs.existsSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`)) {
+                fs.unlinkSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`)
             }
 
             //check for input file
@@ -86,6 +96,8 @@ export default async function validateBins(args, options) {
                     if (await response && await response.result) {
                         try {
                             fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `\nBIN = ${response.data.bin}\nVENDOR = ${response.data.vendor}\nTYPE = ${response.data.type}\nLEVEL = ${response.data.level}\nBANK = ${response.data.bank}\nCOUNTRY = ${response.data.country}\n`);
+
+                            fs.appendFileSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`, `${response.data.bin}\n`)
 
                         } catch (error) {
                             console.error(error);
