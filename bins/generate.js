@@ -17,7 +17,7 @@ export default function generateBins(args, options) {
                 name: 'filenameToSaveTheOutput',
                 type: 'input',
                 default: 'generatedBins.txt',
-                message: "Enter the filename to save the output"
+                message: "Enter the filename to save the output in Current Directory"
             },
             {
                 message: "Are you ready?",

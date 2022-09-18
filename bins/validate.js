@@ -10,13 +10,13 @@ export default async function validateBins(args, options) {
                 name: "fileFromBinsToTake",
                 type: 'input',
                 default: 'generatedBins.txt',
-                message: "Enter the filename with bins"
+                message: "Enter the filename with bins in Current Directory"
             },
             {
                 name: 'filenameToSaveTheOutput',
                 type: 'input',
                 default: 'checkedBins.txt',
-                message: "Enter the filename to save the output"
+                message: "Enter the filename to save the output in Current Directory"
             },
             {
                 message: "Are you ready?",
@@ -65,6 +65,8 @@ export default async function validateBins(args, options) {
             logUpdate(`Progress [ --------- ] 45%\n\nChecking Bins...`);
 
             const frames = ['-', '\\', '|', '/'];
+            let index = 0;
+            let startTime = Date.now()
 
             for (let i = 0; i < readedData.length; i++) {
                 let data = readedData[i].trim()
@@ -81,10 +83,10 @@ export default async function validateBins(args, options) {
 
                     let outputString;
                     //write to the file
-                    if(response && response.result) {
+                    if (await response && await response.result) {
                         try {
-                            fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `\nBIN = ${response.data.bin}\nVENDOR = ${response.data.vendor}\nTYPE = ${response.data.type}\nLEVEL = ${response.data.level}\nBANK = ${response.data.bank}\nCOUNTRY = ${response.data.country}`);
-                            
+                            fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `\nBIN = ${response.data.bin}\nVENDOR = ${response.data.vendor}\nTYPE = ${response.data.type}\nLEVEL = ${response.data.level}\nBANK = ${response.data.bank}\nCOUNTRY = ${response.data.country}\n`);
+
                         } catch (error) {
                             console.error(error);
                             return process.exit(1);
@@ -99,10 +101,13 @@ export default async function validateBins(args, options) {
                     const frame = frames[index = ++index % frames.length];
 
 
-                    logUpdate(`Progress [ ${frame} ] ${Math.floor((i/readedData.length) * 100)}% \n${outputString}`)
+                    logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}`)
+
 
                 }
             }
+            let endTime = Date.now();
+            logUpdate(`Progress [ ! ] 100% \nDone, Checked ${readedData.length} Bins in ${(endTime - startTime) / 100}s`)
 
         }).catch((error) => {
             if (error.isTtyError) {
