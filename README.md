@@ -35,7 +35,7 @@ npm install -g .
 
 Now set the Envirnment variable of your system
 ```
-HACKIUM_APP_PATH = YOURPATH
+HACKIUM_APP_PATH = YOURPATH (without last "/")
 ```
 
 ```
