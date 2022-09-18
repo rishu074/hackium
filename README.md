@@ -47,7 +47,7 @@ hackium --help
 
 Help for specific command
 ```
-hackium --help generate
+hackium --help bins
 ```
 
 Example of generating and validating bins
