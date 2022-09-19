@@ -538,6 +538,11 @@
     "strip-ansi" "^7.0.1"
     "wrap-ansi" "^8.0.1"
 
+"luhn@^2.4.1":
+  "integrity" "sha512-p1eEWSb2RJAfv+BzrPEUqbUXV1H3ylHEAOk9yDM1L12ojD6OQQGrE29DqKLa0XYluJTIwXIOFmyzVOme3QSyww=="
+  "resolved" "https://registry.npmjs.org/luhn/-/luhn-2.4.1.tgz"
+  "version" "2.4.1"
+
 "micromist@1.1.0":
   "integrity" "sha512-+CQ76pabE9egniSEdmDuH+j2cYyIBKP97kujG8ZLZyLCRq5ExwtIy4DPHPFrq4jVbhMRBnyjuH50KU9Ohs8QCg=="
   "resolved" "https://registry.npmjs.org/micromist/-/micromist-1.1.0.tgz"

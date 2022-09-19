@@ -1,11 +1,12 @@
 import inquirer from 'inquirer';
 import logUpdate from 'log-update';
 import fs from 'fs';
+import luhn from 'luhn';
 
 //read the invalid file if exists
 let invalidCards;
-if(fs.existsSync('./invalidCards.txt')) {
-    invalidCards = fs.readFileSync('./invalidCards.txt', {encoding: 'utf-8'});
+if (fs.existsSync('./invalidCards.txt')) {
+    invalidCards = fs.readFileSync('./invalidCards.txt', { encoding: 'utf-8' });
     invalidCards = invalidCards.split("\n");
     invalidCards = Array.from(new Set(invalidCards));
 
@@ -222,20 +223,22 @@ class Luhn {
 }
 
 
-function generate(bin) {
+async function generate(bin) {
     while (true) {
         const generatedCard = bin + '' + randomCard()
         // const generatedCard = 4162988268869643
-        if(invalidCards.indexOf(generatedCard.toString()) === -1) {
-            if (Luhn.validate(parseInt(generatedCard))) {
-                const cardObject = {
-                    card_number: parseInt(generatedCard),
-                    month: randDate().month,
-                    year: randDate().year,
-                    cvv: cvv()
+        if (await luhn.validate(parseInt(generatedCard))) {
+            if (generatedCard.toString().length === 16) {
+                if (invalidCards.indexOf(generatedCard.toString()) === -1) {
+                    const cardObject = {
+                        card_number: parseInt(generatedCard),
+                        month: randDate().month,
+                        year: randDate().year,
+                        cvv: cvv()
+                    }
+
+                    return cardObject;
                 }
-    
-                return cardObject;
             }
         }
 
