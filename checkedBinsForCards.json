@@ -1,0 +1,89 @@
+{
+    "bins": [
+        {
+            "number": {},
+            "scheme": "mastercard",
+            "country": {
+                "numeric": "840",
+                "alpha2": "US",
+                "name": "United States of America",
+                "emoji": "🇺🇸",
+                "currency": "USD",
+                "latitude": 38,
+                "longitude": -97
+            },
+            "bank": {},
+            "bin": 541454
+        },
+        {
+            "number": {},
+            "scheme": "discover",
+            "type": "credit",
+            "country": {
+                "numeric": "840",
+                "alpha2": "US",
+                "name": "United States of America",
+                "emoji": "🇺🇸",
+                "currency": "USD",
+                "latitude": 38,
+                "longitude": -97
+            },
+            "bank": {},
+            "bin": 659093
+        },
+        {
+            "number": {},
+            "scheme": "amex",
+            "brand": "american express",
+            "country": {
+                "numeric": "826",
+                "alpha2": "GB",
+                "name": "United Kingdom of Great Britain and Northern Ireland",
+                "emoji": "🇬🇧",
+                "currency": "GBP",
+                "latitude": 54,
+                "longitude": -2
+            },
+            "bank": {},
+            "bin": 374290
+        },
+        {
+            "number": {},
+            "scheme": "amex",
+            "type": "credit",
+            "brand": "american express",
+            "country": {
+                "numeric": "124",
+                "alpha2": "CA",
+                "name": "Canada",
+                "emoji": "🇨🇦",
+                "currency": "CAD",
+                "latitude": 60,
+                "longitude": -95
+            },
+            "bank": {},
+            "bin": 373029
+        },
+        {
+            "number": {
+                "length": 16,
+                "luhn": true
+            },
+            "scheme": "visa",
+            "type": "credit",
+            "brand": "Traditional",
+            "prepaid": false,
+            "country": {
+                "numeric": "076",
+                "alpha2": "BR",
+                "name": "Brazil",
+                "emoji": "🇧🇷",
+                "currency": "BRL",
+                "latitude": -10,
+                "longitude": -55
+            },
+            "bank": {},
+            "bin": 407657
+        }
+    ]
+}

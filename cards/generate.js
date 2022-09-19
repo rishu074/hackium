@@ -46,7 +46,7 @@ export default function generateCards(args, options) {
             {
                 name: "binFile",
                 type: 'input',
-                default: 'checkedBinsForCards.txt',
+                default: 'checkedBinsForCards.json',
                 message: "Enter the filename from which to take bins in Current Directory",
                 when: (answers) => answers.rand === 'Randomly Select bin from file'
             },
@@ -82,7 +82,7 @@ export default function generateCards(args, options) {
 
 
                 for (let i = 0; i < parseInt(answers.numberOfCardsToGenerate); i++) {
-                    let card = await generate(parseInt(answers.bin));
+                    let card = await generate(parseInt(answers.bin), 16, undefined);
                     if (card) {
                         //appeanding into file
                         let outputString;
@@ -130,11 +130,11 @@ export default function generateCards(args, options) {
                 let readedData;
 
                 try {
-                    readedData = fs.readFileSync(`${answers.binFile.toString()}`, { encoding: 'utf-8' })
+                    readedData = fs.readFileSync(`${answers.binFile.toString()}`)
 
-                    readedData = readedData.split('\n');
+                    readedData = JSON.parse(readedData);
 
-                    if (readedData.length === 0) {
+                    if (readedData.bins.length === 0) {
                         console.error('No data Found.');
                         return process.exit(1);
                     }
@@ -152,9 +152,16 @@ export default function generateCards(args, options) {
                 let index = 0;
 
                 for (let i = 0; i < parseInt(answers.numberOfCardsToGenerate); i++) {
-                    let bin = readedData[Math.floor(Math.random() * (0 + (readedData.length - 1)))].trim()
+                    let a = readedData.bins[Math.floor(Math.random() * (0 + (readedData.bins.length - 1)))]
+                    // console.log(a);
+                    let {
+                        number: {length},
+                        scheme,
+                        bin
+                    } = a;
                     if (bin) {
-                        let card = await generate(parseInt(bin));
+                        let card = await generate(parseInt(bin), length, scheme);
+                        console.log(await card)
                         if (card) {
                             //appeanding into file
                             let outputString;
@@ -222,13 +229,37 @@ class Luhn {
     }
 }
 
+const typesOfCards = {
+    "visa": 16,
+    "mastercard": 16,
+    "amex": 15,
+    "discover": 16
+}
 
-async function generate(bin) {
+
+async function generate(bin, length, scheme) {
     while (true) {
-        const generatedCard = bin + '' + randomCard()
+
+        let lengthofCard = Number.isInteger(parseInt(length)) ? parseInt(length) : typesOfCards[scheme.toString()] ? parseInt(typesOfCards[scheme.toString()]) : undefined;
+
+        // console.log(lengthofCard)
+
+        if(lengthofCard === undefined) {
+            return false;
+        }
+
+        let sendDataToRandomizer = 9;
+
+        for (let i = 0; i < (parseInt((lengthofCard)-(bin.toString().length))-1); i++) {
+            sendDataToRandomizer += '9';
+        }
+
+        const generatedCard = bin + '' + randomCard(parseInt(sendDataToRandomizer));
+
+        // const generatedCard = bin + '' + randomCard()
         // const generatedCard = 4162988268869643
         if (await luhn.validate(parseInt(generatedCard))) {
-            if (generatedCard.toString().length === 16) {
+            if (generatedCard.toString().length === parseInt(lengthofCard)) {
                 if (invalidCards.indexOf(generatedCard.toString()) === -1) {
                     const cardObject = {
                         card_number: parseInt(generatedCard),
@@ -236,6 +267,7 @@ async function generate(bin) {
                         year: randDate().year,
                         cvv: cvv()
                     }
+
 
                     return cardObject;
                 }
@@ -269,6 +301,6 @@ const cvv = () => {
     return toReturn;
 }
 
-const randomCard = () => {
-    return Math.floor(Math.random() * (0 + 9999999999));
+const randomCard = (dig) => {
+    return Math.floor(Math.random() * (0 + parseInt(dig)));
 };

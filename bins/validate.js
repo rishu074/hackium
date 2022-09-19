@@ -21,7 +21,7 @@ export default async function validateBins(args, options) {
             {
                 name: 'filenameToSaveCheckedBinsForCards',
                 type: 'input',
-                default: 'checkedBinsForCards.txt',
+                default: 'checkedBinsForCards.json',
                 message: "Enter the filename to save the output for cards in Current Directory"
             },
             {
@@ -72,6 +72,16 @@ export default async function validateBins(args, options) {
                 return process.exit(1);
             }
 
+            //initialize checked file
+            try {
+                fs.appendFileSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`, "{\r\n    \"bins\": [\r\n\r\n    ]\r\n}", { encoding: 'utf-8' })
+
+            } catch (error) {
+                console.error(error);
+                process.exit()
+            }
+
+
             logUpdate(`Progress [ --------- ] 45%\n\nChecking Bins...`);
 
             const frames = ['-', '\\', '|', '/'];
@@ -83,38 +93,47 @@ export default async function validateBins(args, options) {
                 if (data.length != 0) {
                     //validation process
 
-                    let api_uri = 'https://bin-check-dr4g.herokuapp.com/api/';
+                    //start
+                    const frame = frames[index = ++index % frames.length];
 
-                    //fetching the data
-                    let response = await fetch(api_uri + data.toString());
-                    response = await response.json();
+                    logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n\nProccessing ${data}`)
 
-                    //here we get the response
+                    let binObject = await validateBinz(parseInt(data));
+                    // console.log(await binObject)
+                    if (binObject) {
 
-                    let outputString;
-                    //write to the file
-                    if (await response && await response.result) {
+                        //writing into file
+                        binObject.bank = {};
+
+                        //text file
                         try {
-                            fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `\nBIN = ${response.data.bin}\nVENDOR = ${response.data.vendor}\nTYPE = ${response.data.type}\nLEVEL = ${response.data.level}\nBANK = ${response.data.bank}\nCOUNTRY = ${response.data.country}\n`);
-
-                            fs.appendFileSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`, `${response.data.bin}\n`)
+                            fs.appendFileSync(`./${answers.filenameToSaveTheOutput.toString()}`, `\r\nBIN = ${data}\r\nLength = ${binObject.number.length}\r\nLuhn = ${binObject.number.luhn ? 'yes' : 'no'}\r\nSCHEME = ${binObject.scheme}\r\nTYPE = ${binObject.type}\r\nBRAND = ${binObject.brand}\r\nPREPAID = ${binObject.prepaid ? 'yes' : 'no'}\r\nCOUNTRY = ${binObject.country.name}\r\nCURRENCY = ${binObject.country.currency}\r\nBANK = ${binObject.bank.bank}\r\nPhone = ${binObject.bank.phone}\n`, { encoding: 'utf-8' })
 
                         } catch (error) {
                             console.error(error);
-                            return process.exit(1);
+                            process.exit(1);
                         }
-                        //log output
-                        outputString = `\nBIN = ${response.data.bin}\nVENDOR = ${response.data.vendor}\nTYPE = ${response.data.type}\nLEVEL = ${response.data.level}\nBANK = ${response.data.bank}\nCOUNTRY = ${response.data.country}`;
 
-                    } else {
-                        outputString = `\n${data} Failed.`;
+                        //json file
+                        try {
+                            let jsonData = fs.readFileSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`)
+                            jsonData = JSON.parse(jsonData);
+
+                            binObject.bin = parseInt(data);
+
+                            jsonData.bins.push(binObject);
+
+                            fs.writeFileSync(`./${answers.filenameToSaveCheckedBinsForCards.toString()}`, JSON.stringify(jsonData));
+                        } catch (error) {
+                            console.error(error);
+                            process.exit(1);
+                        }
+
+                        let outputString = `\r\nBIN = ${data}\r\nLength = ${binObject.number.length}\r\nLuhn = ${binObject.number.luhn ? 'yes' : 'no'}\r\nSCHEME = ${binObject.scheme}\r\nTYPE = ${binObject.type}\r\nBRAND = ${binObject.brand}\r\nPREPAID = ${binObject.prepaid ? 'yes' : 'no'}\r\nCOUNTRY = ${binObject.country.name}\r\nCURRENCY = ${binObject.country.currency}\r\nBANK = ${binObject.bank.bank}\r\nPhone = ${binObject.bank.phone}`
+
+                        logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}`)
+
                     }
-
-                    const frame = frames[index = ++index % frames.length];
-
-
-                    logUpdate(`Progress [ ${frame} ] ${Math.floor((i / (readedData.length - 1)) * 100)}% \n${outputString}`)
-
 
                 }
             }
@@ -132,4 +151,43 @@ export default async function validateBins(args, options) {
         console.log("Please use --save flag.")
         process.exit(1);
     }
+}
+
+async function validateBinz(bin) {
+    let erroCount = 0;
+    let lastRequest = Date.now() + 3000;
+
+
+    while (true) {
+        if (erroCount > 5) {
+            return false;
+        }
+
+        //check for now date
+        let currentDate = Date.now();
+
+        let interval = currentDate - lastRequest
+        interval = Math.floor(interval / 1000);
+
+        if (interval >= 0.5) {
+            let response = await fetch(`https://lookup.binlist.net/${bin}`);
+            lastRequest = Date.now();
+            // console.log(await response)
+            if (await response.status === 200) {
+                let jsonResponse = await response.json();
+                // console.log(jsonResponse)
+
+                const binObject = jsonResponse;
+
+                return binObject;
+
+            } else if (await response.status === 404) {
+                return false;
+            } else {
+                erroCount++;
+            }
+        }
+
+    }
+
 }
