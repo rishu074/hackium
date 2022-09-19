@@ -3,9 +3,15 @@ import logUpdate from 'log-update';
 import fs from 'fs';
 
 //read the invalid file if exists
-let invalidCards = fs.readFileSync('./checkedCards.txt', {encoding: 'utf-8'});
-invalidCards = invalidCards.split("\n");
-invalidCards = Array.from(new Set(invalidCards));
+let invalidCards;
+if(fs.existsSync('./invalidCards.txt')) {
+    invalidCards = fs.readFileSync('./invalidCards.txt', {encoding: 'utf-8'});
+    invalidCards = invalidCards.split("\n");
+    invalidCards = Array.from(new Set(invalidCards));
+
+} else {
+    invalidCards = [];
+}
 
 export default function generateCards(args, options) {
     if (options && options.save) {
@@ -219,8 +225,8 @@ class Luhn {
 function generate(bin) {
     while (true) {
         const generatedCard = bin + '' + randomCard()
-        // console.log(invalidCards.length);
-        if(invalidCards.indexOf(generatedCard) === -1) {
+        // const generatedCard = 4162988268869643
+        if(invalidCards.indexOf(generatedCard.toString()) === -1) {
             if (Luhn.validate(parseInt(generatedCard))) {
                 const cardObject = {
                     card_number: parseInt(generatedCard),
