@@ -16,6 +16,7 @@ for (let i = 0; i < readedData.length; i++) {
 
     fs.appendFileSync('./invalidCards.txt', `${element[0].trim()}\n`, {encoding: 'utf-8'})
 }
+ 
 
 let endTime = Date.now()
 

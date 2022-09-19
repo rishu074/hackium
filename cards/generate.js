@@ -61,7 +61,7 @@ export default function generateCards(args, options) {
             if (answers.rand === 'manually enter a bin number') {
 
                 console.clear();
-                console.log(answers.rand)
+                // console.log(answers.rand)
 
                 logUpdate(`Progress [ --- ] 15%\n\nReading the Data...`);
 
@@ -112,7 +112,7 @@ export default function generateCards(args, options) {
                 logUpdate(`Progress [ ! ] 100% \n\nDone, Generated ${cardsArray.length} Cards in ${(endTime - startTime) / 1000}s`)
             } else if (answers.rand === 'Randomly Select bin from file') {
                 console.clear();
-                console.log(answers.rand)
+                // console.log(answers.rand)
 
                 logUpdate(`Progress [ --- ] 15%\n\nReading the Data...`);
 
@@ -161,7 +161,7 @@ export default function generateCards(args, options) {
                     } = a;
                     if (bin) {
                         let card = await generate(parseInt(bin), length, scheme);
-                        console.log(await card)
+                        // console.log(await card)
                         if (card) {
                             //appeanding into file
                             let outputString;
