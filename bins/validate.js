@@ -119,7 +119,7 @@ export default async function validateBins(args, options) {
                 }
             }
             let endTime = Date.now();
-            logUpdate(`Progress [ ! ] 100% \nDone, Checked ${readedData.length} Bins in ${(endTime - startTime) / 100}s`)
+            logUpdate(`Progress [ ! ] 100% \nDone, Checked ${readedData.length} Bins in ${(endTime - startTime) / 1000}s`)
 
         }).catch((error) => {
             if (error.isTtyError) {

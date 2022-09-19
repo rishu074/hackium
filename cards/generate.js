@@ -97,7 +97,7 @@ export default function generateCards(args, options) {
                 //done
                 let endTime = Date.now()
 
-                logUpdate(`Progress [ ! ] 100% \n\nDone, Generated ${cardsArray.length} Cards in ${(endTime - startTime) / 100}s`)
+                logUpdate(`Progress [ ! ] 100% \n\nDone, Generated ${cardsArray.length} Cards in ${(endTime - startTime) / 1000}s`)
             } else if (answers.rand === 'Randomly Select bin from file') {
                 console.clear();
                 console.log(answers.rand)
@@ -170,7 +170,7 @@ export default function generateCards(args, options) {
                 //done
                 let endTime = Date.now()
 
-                logUpdate(`Progress [ ! ] 100% \n\nDone, Generated ${cardsArray.length} Cards in ${(endTime - startTime) / 100}s`)
+                logUpdate(`Progress [ ! ] 100% \n\nDone, Generated ${cardsArray.length} Cards in ${(endTime - startTime) / 1000}s`)
             }
 
         }).catch((error) => {

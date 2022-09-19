@@ -147,7 +147,7 @@ export default function validateCards(args, options) {
 
             //done
             let endTime = Date.now();
-            logUpdate(`Progress [ ! ] 100% \nDone, Checked ${chargedCount + declinedCount} Cards in ${(endTime - startTime) / 100}s, charged ${chargedCount} declined ${declinedCount}`)
+            logUpdate(`Progress [ ! ] 100% \nDone, Checked ${chargedCount + declinedCount} Cards in ${(endTime - startTime) / 1000}s, charged ${chargedCount} declined ${declinedCount}`)
         }).catch((error) => {
             if (error.isTtyError) {
                 process.exit(1);

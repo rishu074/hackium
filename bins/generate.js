@@ -84,7 +84,7 @@ export default function generateBins(args, options) {
 
             let endDate = Date.now()
 
-            logUpdate(`Progress [ ! ] 100%\n\nGenerated ${binsArray.length} in ${(endDate-startDate) / 100}s`);
+            logUpdate(`Progress [ ! ] 100%\n\nGenerated ${binsArray.length} in ${(endDate-startDate) / 1000}s`);
 
         }).catch((error) => {
             if (error.isTtyError) {
