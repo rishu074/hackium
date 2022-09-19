@@ -2,6 +2,11 @@ import inquirer from 'inquirer';
 import logUpdate from 'log-update';
 import fs from 'fs';
 
+//read the invalid file if exists
+let invalidCards = fs.readFileSync('./checkedCards.txt', {encoding: 'utf-8'});
+invalidCards = invalidCards.split("\n");
+invalidCards = Array.from(new Set(invalidCards));
+
 export default function generateCards(args, options) {
     if (options && options.save) {
         inquirer.prompt([
@@ -214,17 +219,20 @@ class Luhn {
 function generate(bin) {
     while (true) {
         const generatedCard = bin + '' + randomCard()
-
-        if (Luhn.validate(parseInt(generatedCard))) {
-            const cardObject = {
-                card_number: parseInt(generatedCard),
-                month: randDate().month,
-                year: randDate().year,
-                cvv: cvv()
+        // console.log(invalidCards.length);
+        if(invalidCards.indexOf(generatedCard) === -1) {
+            if (Luhn.validate(parseInt(generatedCard))) {
+                const cardObject = {
+                    card_number: parseInt(generatedCard),
+                    month: randDate().month,
+                    year: randDate().year,
+                    cvv: cvv()
+                }
+    
+                return cardObject;
             }
-
-            return cardObject;
         }
+
     }
 }
 
