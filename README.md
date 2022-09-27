@@ -9,6 +9,7 @@
 ## About <a name = "about"></a>
 
 Just used to do something cool in cli...
+[ NOTE: Please Don't use it For Any illegal purposes, if you use it then I don't care its not my responsiblity ]
 
 ## Getting Started <a name = "getting_started"></a>
 
